@@ -5,8 +5,8 @@
  * It includes tables for authentication, dashboard metrics, AI threads, and system health.
  */
 
-import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
+import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
 
 /**
  * Users table for authentication
@@ -131,6 +131,101 @@ export const documents = sqliteTable("documents", {
     .notNull()
     .default(sql`(unixepoch())`),
   updatedAt: integer("updated_at", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+/**
+ * Smart Home Control Panel tables
+ */
+export const stateChanges = sqliteTable("state_changes", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  entityId: text("entity_id").notNull(),
+  oldState: text("old_state"),
+  newState: text("new_state"),
+  attributes: text("attributes", { mode: "json" }), // JSON string
+  timestamp: integer("timestamp", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+export const actions = sqliteTable("actions", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  type: text("type").notNull(), // 'service_call', 'scene_activation', etc.
+  domain: text("domain"),
+  service: text("service"),
+  entityId: text("entity_id"),
+  serviceData: text("service_data", { mode: "json" }), // JSON string
+  userAgent: text("user_agent"),
+  timestamp: integer("timestamp", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+export const metrics = sqliteTable("metrics", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  type: text("type").notNull(), // 'energy_kwh', 'temperature', 'humidity'
+  entityId: text("entity_id"),
+  value: real("value"),
+  unit: text("unit"),
+  timestamp: integer("timestamp", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+export const insights = sqliteTable("insights", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  category: text("category"), // 'energy_anomaly', 'pattern_detected', 'suggestion'
+  title: text("title"),
+  description: text("description"),
+  data: text("data", { mode: "json" }), // JSON string
+  significanceScore: real("significance_score"), // 0-100
+  timestamp: integer("timestamp", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+export const behaviorPatterns = sqliteTable("behavior_patterns", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  patternName: text("pattern_name"),
+  description: text("description"),
+  conditions: text("conditions", { mode: "json" }), // JSON string
+  frequency: integer("frequency"),
+  confidence: real("confidence"), // 0-100%
+  lastObserved: integer("last_observed", { mode: "timestamp" }),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`),
+});
+
+export const suggestions = sqliteTable("suggestions", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title"),
+  description: text("description"),
+  automationConfig: text("automation_config", { mode: "json" }), // YAML config as JSON string
+  reason: text("reason"),
+  estimatedBenefit: text("estimated_benefit"),
+  status: text("status").default("new"), // 'new', 'viewed', 'accepted', 'dismissed'
+  createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(unixepoch())`),
+});
+
+export const cameraEvents = sqliteTable("camera_events", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  cameraId: text("camera_id"),
+  snapshotUrl: text("snapshot_url"),
+  analysis: text("analysis", { mode: "json" }), // JSON string
+  detectedObjects: text("detected_objects", { mode: "json" }), // JSON array
+  alertLevel: text("alert_level"), // 'none', 'low', 'medium', 'high'
+  timestamp: integer("timestamp", { mode: "timestamp" }).notNull(),
+});
+
+export const chatHistory = sqliteTable("chat_history", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userMessage: text("user_message"),
+  assistantResponse: text("assistant_response"),
+  intent: text("intent"),
+  entitiesMentioned: text("entities_mentioned", { mode: "json" }), // JSON array
+  actionsTaken: text("actions_taken", { mode: "json" }), // JSON array
+  userSatisfaction: text("user_satisfaction"), // 'good', 'bad', 'neutral'
+  timestamp: integer("timestamp", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
 });
