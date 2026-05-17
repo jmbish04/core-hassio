@@ -26,7 +26,7 @@ const registerSchema = z.object({
   name: z.string().min(2),
 });
 
-// Simple password hashing (in production, use a proper library)
+// NOTE: SHA-256 is used here for simplicity; replace with bcrypt or similar in production.
 async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);

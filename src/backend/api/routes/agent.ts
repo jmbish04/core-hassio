@@ -143,7 +143,7 @@ agentRouter.post("/", async (c) => {
     const response = await client.messages.create({
       model: "claude-3-5-sonnet-20240620",
       max_tokens: 1024,
-      tools: tools as any, // type assertion for simplified usage
+      tools: tools as any,
       messages: conversationMessages,
       system: `You are a helpful home automation assistant. You help users control their smart home devices
                and provide insights about their energy usage and home automation patterns.

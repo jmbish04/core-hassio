@@ -79,9 +79,7 @@ export class HAWebSocketRelay extends DurableObject {
         timestamp: new Date().toISOString(),
       };
 
-      // In a real implementation, we'd use Drizzle ORM to insert this into the D1 DB
-      // Assuming env.DB is available and we can use Drizzle
-      // (This requires passing D1 to the Durable Object environment and importing schema)
+      // TODO: persist state change to D1 via Drizzle ORM
     }
   }
 
@@ -102,7 +100,7 @@ export class HAWebSocketRelay extends DurableObject {
   }
 
   async handleSession(webSocket: WebSocket) {
-    // Durable Objects require accept()
+    // accept() is required by the Durable Objects WebSocket API
     // @ts-ignore
     webSocket.accept();
     this.clients.add(webSocket);
@@ -146,7 +144,7 @@ export class HAWebSocketRelay extends DurableObject {
   }
 
   private async logAction(_action: any) {
-    // Similar to logStateChange, this would interact with D1 via Drizzle
+    // TODO: persist action to D1 via Drizzle ORM
   }
 
   private async reconnect() {

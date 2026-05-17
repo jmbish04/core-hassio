@@ -6,7 +6,6 @@ export function useHAWebSocket() {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    // Determine the correct protocol and host for the WebSocket connection
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const wsUrl = `${protocol}//${window.location.host}/ws`;
 
@@ -14,7 +13,6 @@ export function useHAWebSocket() {
 
     websocket.onopen = () => {
       setConnected(true);
-      // Subscribe to all light entities (for demonstration)
       websocket.send(
         JSON.stringify({
           type: "subscribe",

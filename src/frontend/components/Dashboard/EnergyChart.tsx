@@ -7,8 +7,7 @@ export function EnergyChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // In a real application, you would fetch this from /api/metrics
-    // For now, we'll provide some dummy data to render the chart
+    // TODO: replace with live data from /api/metrics
     setData([
       { timestamp: "12 AM", power_kw: 1.2 },
       { timestamp: "4 AM", power_kw: 0.8 },

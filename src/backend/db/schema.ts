@@ -1,8 +1,5 @@
 /**
  * @fileoverview Database schema definitions using drizzle-orm.
- *
- * This file defines the database schema using drizzle-orm for the complete application.
- * It includes tables for authentication, dashboard metrics, AI threads, and system health.
  */
 
 import { sql } from "drizzle-orm";
