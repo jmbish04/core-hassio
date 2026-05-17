@@ -28,7 +28,7 @@ export type Bindings = {
   CLOUDFLARE_ACCOUNT_ID?: string;
   HOMEASSISTANT_URL?: string;
   HA_TOKEN?: string;
-  HA_RELAY: any; // Durable Object namespace
+  HA_RELAY: DurableObjectNamespace; // Durable Object namespace
   ANTHROPIC_API_KEY?: string;
 };
 
