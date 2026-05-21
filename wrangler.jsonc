@@ -116,4 +116,19 @@
       "secret_name": "OPENAI_API_KEY",
     },
   ],
+
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "HA_RELAY",
+        "class_name": "HAWebSocketRelay",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["HAWebSocketRelay"],
+    },
+  ],
 }
